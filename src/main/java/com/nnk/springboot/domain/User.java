@@ -11,16 +11,15 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
 	private Integer id;
 
 	@NotBlank(message = "Username is mandatory")
-	@Column(name = "username")
+	@Column(name = "user_name")
 	private String username;
 
 	@NotBlank(message = "Password is mandatory")
@@ -28,7 +27,7 @@ public class User {
 	private String password;
 
 	@NotBlank(message = "FullName is mandatory")
-	@Column(name = "fullname")
+	@Column(name = "full_name")
 	private String fullname;
 
 	@NotBlank(message = "Role is mandatory")

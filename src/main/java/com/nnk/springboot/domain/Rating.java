@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Rating")
+@Table(name = "rating")
 public class Rating {
 
 	@Id
@@ -18,16 +18,16 @@ public class Rating {
 	@Column(name = "Id")
 	Integer id;
 
-	@Column(name = "moodysRating")
+	@Column(name = "moodys_rating")
 	String moodysRating;
 
-	@Column(name = "sandPRating")
-	String sandPRating;
+	@Column(name = "sandp_rating")
+	String sandpRating;
 
-	@Column(name = "fitchRating")
+	@Column(name = "fitch_rating")
 	String fitchRating;
 
-	@Column(name = "orderNumber")
+	@Column(name = "order_number")
 	Integer orderNumber;
 
 	public Rating() {
@@ -38,7 +38,7 @@ public class Rating {
 		super();
 		this.id = id;
 		this.moodysRating = moodysRating;
-		this.sandPRating = sandPRating;
+		this.sandpRating = sandPRating;
 		this.fitchRating = fitchRating;
 		this.orderNumber = orderNumber;
 	}
@@ -59,12 +59,12 @@ public class Rating {
 		this.moodysRating = moodysRating;
 	}
 
-	public String getSandPRating() {
-		return sandPRating;
+	public String getSandpRating() {
+		return sandpRating;
 	}
 
-	public void setSandPRating(String sandPRating) {
-		this.sandPRating = sandPRating;
+	public void setSandpRating(String sandpRating) {
+		this.sandpRating = sandpRating;
 	}
 
 	public String getFitchRating() {

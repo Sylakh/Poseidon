@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "CurvePoint")
+@Table(name = "curve_point")
 public class CurvePoint {
 
 	@Id
@@ -84,11 +84,11 @@ public class CurvePoint {
 		this.creationDate = creationDate;
 	}
 
-	@NotNull(message = "must not be null")
-	@Column(name = "CurveId")
+	// @NotNull(message = "must not be null")
+	@Column(name = "curve_id")
 	Integer curveId;
 
-	@Column(name = "asOfDate")
+	@Column(name = "as_of_date")
 	Timestamp asOfDate;
 
 	@Column(name = "term")
@@ -97,7 +97,7 @@ public class CurvePoint {
 	@Column(name = "value")
 	Double value;
 
-	@Column(name = "creationDate")
+	@Column(name = "creation_date")
 	Timestamp creationDate;
 
 }

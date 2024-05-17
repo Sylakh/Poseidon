@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Bidlist")
+@Table(name = "bidlist")
 public class BidList {
 
 	public BidList() {
@@ -26,7 +26,7 @@ public class BidList {
 			String trader, String book, String creationName, Timestamp creationDate, String revisionName,
 			Timestamp revisionDate, String dealName, String dealType, String sourceListId, String side) {
 		super();
-		BidListId = bidListId;
+		this.bidListId = bidListId;
 		this.account = account;
 		this.type = type;
 		this.bidQuantity = bidQuantity;
@@ -51,11 +51,11 @@ public class BidList {
 	}
 
 	public Integer getBidListId() {
-		return BidListId;
+		return bidListId;
 	}
 
 	public void setBidListId(Integer bidListId) {
-		BidListId = bidListId;
+		this.bidListId = bidListId;
 	}
 
 	public String getAccount() {
@@ -228,8 +228,8 @@ public class BidList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "BidListId")
-	Integer BidListId;
+	@Column(name = "bid_list_id")
+	Integer bidListId;
 
 	@NotBlank(message = "account is mandatory")
 	@Column(name = "account")
@@ -239,10 +239,10 @@ public class BidList {
 	@Column(name = "type")
 	String type;
 
-	@Column(name = "bidQuantity")
+	@Column(name = "bid_quantity")
 	Double bidQuantity;
 
-	@Column(name = "askQuantity")
+	@Column(name = "ask_quantity")
 	Double askQuantity;
 
 	@Column(name = "bid")
@@ -254,7 +254,7 @@ public class BidList {
 	@Column(name = "benchmark")
 	String benchmark;
 
-	@Column(name = "bidListDate")
+	@Column(name = "bid_list_date")
 	Timestamp bidListDate;
 
 	@Column(name = "commentary")
@@ -272,25 +272,25 @@ public class BidList {
 	@Column(name = "book")
 	String book;
 
-	@Column(name = "creationName")
+	@Column(name = "creation_name")
 	String creationName;
 
-	@Column(name = "creationDate")
+	@Column(name = "creation_date")
 	Timestamp creationDate;
 
 	@Column(name = "revision_name")
 	String revisionName;
 
-	@Column(name = "revisionDate")
+	@Column(name = "revision_date")
 	Timestamp revisionDate;
 
-	@Column(name = "dealName")
+	@Column(name = "deal_name")
 	String dealName;
 
-	@Column(name = "dealType")
+	@Column(name = "deal_type")
 	String dealType;
 
-	@Column(name = "sourceListId")
+	@Column(name = "source_list_id")
 	String sourceListId;
 
 	@Column(name = "side")

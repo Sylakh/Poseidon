@@ -12,16 +12,73 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Trade")
+@Table(name = "trade")
 public class Trade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TradeId")
+	@Column(name = "trade_id")
 	Integer tradeId;
 
 	@Column(name = "account")
 	String account;
+
+	@Column(name = "type")
+	String type;
+
+	@Column(name = "buy_quantity")
+	Double buyQuantity;
+
+	@Column(name = "sell_quantity")
+	Double sellQuantity;
+
+	@Column(name = "buy_price")
+	Double buyPrice;
+
+	@Column(name = "sell_price")
+	Double sellPrice;
+
+	@Column(name = "benchmark")
+	String benchmark;
+
+	@Column(name = "trade_date")
+	Timestamp tradeDate;
+
+	@Column(name = "security")
+	String security;
+
+	@Column(name = "status")
+	String status;
+
+	@Column(name = "trader")
+	String trader;
+
+	@Column(name = "book")
+	String book;
+
+	@Column(name = "creation_name")
+	String creationName;
+
+	@Column(name = "creation_date")
+	Timestamp creationDate;
+
+	@Column(name = "revision_name")
+	String revisionName;
+
+	@Column(name = "revision_date")
+	Timestamp revisionDate;
+
+	@Column(name = "deal_name")
+	String dealName;
+
+	@Column(name = "deal_type")
+	String dealType;
+
+	@Column(name = "sourcelist_id")
+	String sourceListId;
+
+	@Column(name = "side")
+	String side;
 
 	public Trade() {
 		super();
@@ -222,62 +279,4 @@ public class Trade {
 	public void setSide(String side) {
 		this.side = side;
 	}
-
-	@Column(name = "type")
-	String type;
-
-	@Column(name = "buyQuantity")
-	Double buyQuantity;
-
-	@Column(name = "sellQuantity")
-	Double sellQuantity;
-
-	@Column(name = "buyPrice")
-	Double buyPrice;
-
-	@Column(name = "sellPrice")
-	Double sellPrice;
-
-	@Column(name = "benchmark")
-	String benchmark;
-
-	@Column(name = "tradeDate")
-	Timestamp tradeDate;
-
-	@Column(name = "security")
-	String security;
-
-	@Column(name = "status")
-	String status;
-
-	@Column(name = "trader")
-	String trader;
-
-	@Column(name = "book")
-	String book;
-
-	@Column(name = "creationName")
-	String creationName;
-
-	@Column(name = "creationDate")
-	Timestamp creationDate;
-
-	@Column(name = "revisionName")
-	String revisionName;
-
-	@Column(name = "revisionDate")
-	Timestamp revisionDate;
-
-	@Column(name = "dealName")
-	String dealName;
-
-	@Column(name = "dealType")
-	String dealType;
-
-	@Column(name = "sourceListid")
-	String sourceListId;
-
-	@Column(name = "side")
-	String side;
-
 }
