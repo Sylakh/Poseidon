@@ -1,5 +1,7 @@
 package com.nnk.springboot.domain;
 
+import com.nnk.springboot.annotations.Password;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class User {
 
 	@NotBlank(message = "Password is mandatory")
 	@Column(name = "password")
+	@Password
 	private String password;
 
 	@NotBlank(message = "FullName is mandatory")

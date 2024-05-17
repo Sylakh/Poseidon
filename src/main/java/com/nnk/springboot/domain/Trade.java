@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
@@ -26,15 +27,19 @@ public class Trade {
 	@Column(name = "type")
 	String type;
 
+	@Min(1)
 	@Column(name = "buy_quantity")
 	Double buyQuantity;
 
+	@Min(1)
 	@Column(name = "sell_quantity")
 	Double sellQuantity;
 
+	@Min(1)
 	@Column(name = "buy_price")
 	Double buyPrice;
 
+	@Min(1)
 	@Column(name = "sell_price")
 	Double sellPrice;
 

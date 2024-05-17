@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -20,6 +21,24 @@ public class CurvePoint {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")
 	Integer id;
+
+	// @NotNull(message = "must not be null")
+	@Column(name = "curve_id")
+	Integer curveId;
+
+	@Column(name = "as_of_date")
+	Timestamp asOfDate;
+
+	@Min(1)
+	@Column(name = "term")
+	Double term;
+
+	@Min(1)
+	@Column(name = "value")
+	Double value;
+
+	@Column(name = "creation_date")
+	Timestamp creationDate;
 
 	public CurvePoint() {
 		super();
@@ -83,21 +102,4 @@ public class CurvePoint {
 	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
-
-	// @NotNull(message = "must not be null")
-	@Column(name = "curve_id")
-	Integer curveId;
-
-	@Column(name = "as_of_date")
-	Timestamp asOfDate;
-
-	@Column(name = "term")
-	Double term;
-
-	@Column(name = "value")
-	Double value;
-
-	@Column(name = "creation_date")
-	Timestamp creationDate;
-
 }
