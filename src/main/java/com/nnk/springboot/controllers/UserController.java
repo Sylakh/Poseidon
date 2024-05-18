@@ -1,5 +1,7 @@
 package com.nnk.springboot.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,22 +18,27 @@ import jakarta.validation.Valid;
 @Controller
 public class UserController {
 
+	private static final Logger logger = LogManager.getLogger("UserController");
+
 	@Autowired
 	private UserService userService;
 
 	@GetMapping("/user/list")
 	public String home(Model model) {
 		model.addAttribute("users", userService.findAll());
+		logger.info("Get request for list of user");
 		return "user/list";
 	}
 
 	@GetMapping("/user/add")
 	public String addUser(User bid) {
+		logger.info("Get request for add page");
 		return "user/add";
 	}
 
 	@PostMapping("/user/validate")
 	public String validate(@Valid User user, BindingResult result, Model model) {
+		logger.info("Create a new user in database");
 		if (!result.hasErrors()) {
 			userService.add(user);
 			model.addAttribute("users", userService.findAll());
@@ -42,6 +49,7 @@ public class UserController {
 
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+		logger.info("Get request for update page");
 		User user = userService.findById(id);
 		user.setPassword("");
 		model.addAttribute("user", user);
@@ -51,6 +59,7 @@ public class UserController {
 	@PostMapping("/user/update/{id}")
 	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model)
 			throws Exception {
+		logger.info("update a user in database");
 		if (result.hasErrors()) {
 			return "user/update";
 		}
@@ -61,6 +70,7 @@ public class UserController {
 
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
+		logger.info("Delete a user in database");
 		userService.delete(id);
 		model.addAttribute("users", userService.findAll());
 		return "redirect:/user/list";

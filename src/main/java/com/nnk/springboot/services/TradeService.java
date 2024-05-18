@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,13 @@ import jakarta.validation.Valid;
 @Service
 public class TradeService {
 
+	private static final Logger logger = LogManager.getLogger("TradeService");
+
 	@Autowired
 	private TradeRepository tradeRepository;
 
 	public List<Trade> findAll() {
+		logger.info("find list done");
 		return tradeRepository.findAll();
 	}
 
@@ -26,12 +31,13 @@ public class TradeService {
 		trade.setTradeDate(new Timestamp(System.currentTimeMillis()));
 		trade.setRevisionName("a");
 		tradeRepository.save(trade);
-
+		logger.info("add done");
 	}
 
 	public Trade findById(int id) {
 		Optional<Trade> optionalTrade = tradeRepository.findById(id);
 		if (optionalTrade.isPresent()) {
+			logger.info("find by id done");
 			return optionalTrade.get();
 		} else {
 			throw new IllegalArgumentException("Invalid trade Id:" + id);
@@ -49,6 +55,9 @@ public class TradeService {
 			foundTrade.setRevisionDate(new Timestamp(System.currentTimeMillis()));
 			foundTrade.setRevisionName(incrementLetter(foundTrade.getRevisionName()));
 			tradeRepository.save(foundTrade);
+			logger.info("update done");
+		} else {
+			throw new Exception("Invalid trade Id:" + id);
 		}
 	}
 
@@ -68,6 +77,7 @@ public class TradeService {
 		Optional<Trade> optionalTrade = tradeRepository.findById(id);
 		if (optionalTrade.isPresent()) {
 			tradeRepository.deleteById(id);
+			logger.info("delete done");
 		} else {
 			throw new IllegalArgumentException("Invalid trade Id:" + id);
 		}

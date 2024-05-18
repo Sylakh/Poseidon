@@ -154,12 +154,11 @@
                 <configuration>
 					<excludes>
 						<exclude>**/*DTO/*.*</exclude>
-						<exclude>**/*controller/*.*</exclude>
-						<exclude>**/*model/*.*</exclude>
-						<exclude>**/*repository/*.*</exclude>
+						<exclude>**/*controllers/*.*</exclude>
+						<exclude>**/*domain/*.*</exclude>
+						<exclude>**/*repositories/*.*</exclude>
 						<exclude>**/App.*</exclude>
 						<exclude>**/*Config*.*</exclude>
-						<exclude>**/*CustomUser*.*</exclude>
 					</excludes>
 				</configuration>
                 <executions>

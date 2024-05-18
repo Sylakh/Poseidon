@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,13 @@ import jakarta.validation.Valid;
 @Service
 public class BidListService {
 
+	private static final Logger logger = LogManager.getLogger("BidListService");
+
 	@Autowired
 	private BidListRepository bidListRepository;
 
 	public List<BidList> findAll() {
+		logger.info("find list done");
 		return bidListRepository.findAll();
 	}
 
@@ -27,11 +32,13 @@ public class BidListService {
 		bid.setCreationName("a");
 		bid.setRevisionName("a");
 		bidListRepository.save(bid);
+		logger.info("add done");
 	}
 
 	public BidList findById(Integer id) {
 		Optional<BidList> optionalBidList = bidListRepository.findById(id);
 		if (optionalBidList.isPresent()) {
+			logger.info("find by id done");
 			return optionalBidList.get();
 		} else {
 			throw new IllegalArgumentException("Invalid BidList Id:" + id);
@@ -61,7 +68,9 @@ public class BidListService {
 			foundBidList.setRevisionDate(new Timestamp(System.currentTimeMillis()));
 			foundBidList.setRevisionName(incrementLetter(foundBidList.getRevisionName()));
 			bidListRepository.save(foundBidList);
-
+			logger.info("update done");
+		} else {
+			throw new Exception("Invalid bidlist Id:" + id);
 		}
 
 	}
@@ -70,8 +79,9 @@ public class BidListService {
 		Optional<BidList> optionalBidList = bidListRepository.findById(id);
 		if (optionalBidList.isPresent()) {
 			bidListRepository.deleteById(id);
+			logger.info("delete done");
 		} else {
-			throw new IllegalArgumentException("Invalid trade Id:" + id);
+			throw new IllegalArgumentException("Invalid BidList Id:" + id);
 		}
 	}
 }
