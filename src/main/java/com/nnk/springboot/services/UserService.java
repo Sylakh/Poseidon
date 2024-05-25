@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nnk.springboot.domain.User;
+import com.nnk.springboot.domain.DBUser;
 import com.nnk.springboot.repositories.UserRepository;
 
 @Service
@@ -20,20 +20,20 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public List<User> findAll() {
+	public List<DBUser> findAll() {
 		logger.info("find list done");
 		return userRepository.findAll();
 	}
 
-	public void add(User user) {
+	public void add(DBUser user) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
 		userRepository.save(user);
 		logger.info("add done");
 	}
 
-	public User findById(int id) {
-		Optional<User> optionalUser = userRepository.findById(id);
+	public DBUser findById(int id) {
+		Optional<DBUser> optionalUser = userRepository.findById(id);
 		if (optionalUser.isPresent()) {
 			logger.info("find by id done");
 			return optionalUser.get();
@@ -42,10 +42,10 @@ public class UserService {
 		}
 	}
 
-	public void update(User user, int id) throws Exception {
-		Optional<User> optionalUser = userRepository.findById(id);
+	public void update(DBUser user, int id) throws Exception {
+		Optional<DBUser> optionalUser = userRepository.findById(id);
 		if (optionalUser.isPresent()) {
-			User updateUser = optionalUser.get();
+			DBUser updateUser = optionalUser.get();
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			updateUser.setUsername(user.getUsername());
 			updateUser.setPassword(encoder.encode(user.getPassword()));
@@ -59,7 +59,7 @@ public class UserService {
 	}
 
 	public void delete(int id) {
-		Optional<User> optionalUser = userRepository.findById(id);
+		Optional<DBUser> optionalUser = userRepository.findById(id);
 		if (optionalUser.isPresent()) {
 			userRepository.deleteById(id);
 			logger.info("delete done");

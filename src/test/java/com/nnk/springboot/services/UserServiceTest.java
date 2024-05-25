@@ -22,7 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.nnk.springboot.domain.User;
+import com.nnk.springboot.domain.DBUser;
 import com.nnk.springboot.repositories.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,19 +34,19 @@ public class UserServiceTest {
 	@InjectMocks
 	private UserService userService;
 
-	private User user;
+	private DBUser user;
 
 	@BeforeEach
 	public void setup() {
-		user = new User(1, "username", "password", "fullname", "role");
+		user = new DBUser(1, "username", "password", "fullname", "role");
 	}
 
 	@Test
 	public void testFindAll() {
-		List<User> users = Arrays.asList(user);
+		List<DBUser> users = Arrays.asList(user);
 		when(userRepository.findAll()).thenReturn(users);
 
-		List<User> result = userService.findAll();
+		List<DBUser> result = userService.findAll();
 
 		assertEquals(1, result.size());
 		assertEquals(user.getUsername(), result.get(0).getUsername());
@@ -55,11 +55,11 @@ public class UserServiceTest {
 	@Test
 	public void testAdd() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		when(userRepository.save(any(User.class))).thenReturn(user);
+		when(userRepository.save(any(DBUser.class))).thenReturn(user);
 
 		userService.add(user);
 
-		verify(userRepository, times(1)).save(any(User.class));
+		verify(userRepository, times(1)).save(any(DBUser.class));
 		assertTrue(encoder.matches("password", user.getPassword()));
 	}
 
@@ -67,7 +67,7 @@ public class UserServiceTest {
 	public void testFindById() {
 		when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-		User result = userService.findById(1);
+		DBUser result = userService.findById(1);
 
 		assertNotNull(result);
 		assertEquals(user.getUsername(), result.getUsername());
@@ -87,12 +87,12 @@ public class UserServiceTest {
 	@Test
 	public void testUpdate() throws Exception {
 		when(userRepository.findById(1)).thenReturn(Optional.of(user));
-		when(userRepository.save(any(User.class))).thenReturn(user);
+		when(userRepository.save(any(DBUser.class))).thenReturn(user);
 
-		User updatedUser = new User(1, "newUsername", "newPassword", "fullname", "role");
+		DBUser updatedUser = new DBUser(1, "newUsername", "newPassword", "fullname", "role");
 		userService.update(updatedUser, 1);
 
-		verify(userRepository, times(1)).save(any(User.class));
+		verify(userRepository, times(1)).save(any(DBUser.class));
 		assertEquals("newUsername", user.getUsername());
 	}
 
@@ -100,7 +100,7 @@ public class UserServiceTest {
 	public void testUpdate_NotFound() {
 		when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-		User updatedUser = new User(1, "newUsername", "newPassword", "fullname", "role");
+		DBUser updatedUser = new DBUser(1, "newUsername", "newPassword", "fullname", "role");
 
 		Exception exception = assertThrows(Exception.class, () -> {
 			userService.update(updatedUser, 1);

@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class DBUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,11 +37,11 @@ public class User {
 	@Column(name = "role")
 	private String role;
 
-	public User() {
+	public DBUser() {
 		super();
 	}
 
-	public User(Integer id, @NotBlank(message = "Username is mandatory") String username,
+	public DBUser(Integer id, @NotBlank(message = "Username is mandatory") String username,
 			@NotBlank(message = "Password is mandatory") String password,
 			@NotBlank(message = "FullName is mandatory") String fullname,
 			@NotBlank(message = "Role is mandatory") String role) {
