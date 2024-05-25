@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.services.TradeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,8 +25,13 @@ public class TradeController {
 	private TradeService tradeService;
 
 	@GetMapping("/trade/list")
-	public String home(Model model) {
+	public String home(Model model, HttpServletRequest request) {
 		model.addAttribute("trades", tradeService.findAll());
+		String remoteUser = request.getRemoteUser();
+		// Authentication authentication =
+		// SecurityContextHolder.getContext().getAuthentication();
+		// String remoteUser = authentication.getName();
+		model.addAttribute("remoteUser", remoteUser);
 		logger.info("Get request for list of trade");
 		return "trade/list";
 	}

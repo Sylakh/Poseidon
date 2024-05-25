@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.UserRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("app")
 public class LoginController {
@@ -31,11 +33,14 @@ public class LoginController {
 	}
 
 	@GetMapping("error")
-	public ModelAndView error() {
+	public ModelAndView error(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
+		String remoteUser = request.getRemoteUser();
 		String errorMessage = "You are not authorized for the requested data.";
 		mav.addObject("errorMsg", errorMessage);
+		mav.addObject("remoteUser", remoteUser);
 		mav.setViewName("403");
 		return mav;
 	}
+
 }

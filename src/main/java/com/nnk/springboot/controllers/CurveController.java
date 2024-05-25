@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -25,7 +26,9 @@ public class CurveController {
 	private CurvePointService curvePointService;
 
 	@RequestMapping("/curvePoint/list")
-	public String home(Model model) {
+	public String home(Model model, HttpServletRequest request) {
+		String remoteUser = request.getRemoteUser();
+		model.addAttribute("remoteUser", remoteUser);
 		model.addAttribute("curvePoints", curvePointService.findAll());
 		logger.info("Get request for list of curvePoint");
 		return "curvePoint/list";

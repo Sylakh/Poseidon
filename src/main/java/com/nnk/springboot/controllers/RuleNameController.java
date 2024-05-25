@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleNameService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,7 +25,9 @@ public class RuleNameController {
 	private RuleNameService ruleNameService;
 
 	@GetMapping("/ruleName/list")
-	public String home(Model model) {
+	public String home(Model model, HttpServletRequest request) {
+		String remoteUser = request.getRemoteUser();
+		model.addAttribute("remoteUser", remoteUser);
 		model.addAttribute("ruleNames", ruleNameService.findAll());
 		logger.info("Get request for list of rulename");
 		return "ruleName/list";
