@@ -32,16 +32,12 @@ public class RuleNameService {
 	}
 
 	public RuleName findById(Integer id) {
-		Optional<RuleName> optionalRuleName = ruleNameRepository.findById(id);
-		if (optionalRuleName.isPresent()) {
-			logger.info("find by id done");
-			return optionalRuleName.get();
-		} else {
-			throw new IllegalArgumentException("Invalid ruleName Id:" + id);
-		}
+		return ruleNameRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid ruleName Id:" + id));
+
 	}
 
-	public void update(@Valid RuleName ruleName, Integer id) throws Exception {
+	public void update(RuleName ruleName, Integer id) throws Exception {
 		Optional<RuleName> optionalRuleName = ruleNameRepository.findById(id);
 		if (optionalRuleName.isPresent()) {
 			RuleName foundRuleName = optionalRuleName.get();

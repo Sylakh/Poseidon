@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomeController {
+
 	@GetMapping("/")
 	public String home(Model model, HttpServletRequest request) {
 		String remoteUser = request.getRemoteUser();

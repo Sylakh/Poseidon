@@ -1,7 +1,6 @@
 package com.nnk.springboot.services;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
-
-import jakarta.validation.Valid;
 
 @Service
 public class CurvePointService {
@@ -26,44 +23,37 @@ public class CurvePointService {
 		return curvePointRepository.findAll();
 	}
 
-	public void add(@Valid CurvePoint curvePoint) {
+	public void add(CurvePoint curvePoint) {
 		curvePoint.setCreationDate(new Timestamp(System.currentTimeMillis()));
+		curvePoint.setCurveId(curvePoint.getCurveId());
 		curvePointRepository.save(curvePoint);
 		logger.info("add done");
 	}
 
 	public CurvePoint findById(Integer id) {
-		Optional<CurvePoint> optionalCurvePoint = curvePointRepository.findById(id);
-		if (optionalCurvePoint.isPresent()) {
-			logger.info("find by id done");
-			return optionalCurvePoint.get();
-		} else {
-			throw new IllegalArgumentException("Invalid curvePoint Id:" + id);
-		}
+		return curvePointRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
+
 	}
 
-	public void update(@Valid CurvePoint curvePoint, Integer id) throws Exception {
-		Optional<CurvePoint> optionalCurvePoint = curvePointRepository.findById(id);
-		if (optionalCurvePoint.isPresent()) {
-			CurvePoint foundCurvePoint = optionalCurvePoint.get();
+	public void update(CurvePoint curvePoint, Integer id) throws Exception {
+		curvePointRepository.findById(id).map(foundCurvePoint -> {
 			foundCurvePoint.setId(id);
 			foundCurvePoint.setTerm(curvePoint.getTerm());
 			foundCurvePoint.setValue(curvePoint.getValue());
-			curvePointRepository.save(foundCurvePoint);
+			CurvePoint updatedCurvePoint = curvePointRepository.save(foundCurvePoint);
 			logger.info("update done");
-		} else {
-			throw new Exception("Invalid curvepoint Id:" + id);
-		}
+			return updatedCurvePoint;
+		}).orElseThrow(() -> new Exception("Invalid curvepoint Id:" + id));
+
 	}
 
 	public void delete(Integer id) {
-		Optional<CurvePoint> optionalCurvePoint = curvePointRepository.findById(id);
-		if (optionalCurvePoint.isPresent()) {
+		curvePointRepository.findById(id).map(foundCurvePoint -> {
 			curvePointRepository.deleteById(id);
 			logger.info("delete done");
-		} else {
-			throw new IllegalArgumentException("Invalid curvePoint Id:" + id);
-		}
+			return foundCurvePoint;
+		}).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
 
 	}
 

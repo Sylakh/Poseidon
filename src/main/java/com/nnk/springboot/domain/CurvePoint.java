@@ -22,7 +22,6 @@ public class CurvePoint {
 	@Column(name = "Id")
 	Integer id;
 
-	// @NotNull(message = "must not be null")
 	@Column(name = "curve_id")
 	Integer curveId;
 

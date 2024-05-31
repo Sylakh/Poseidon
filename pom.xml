@@ -172,7 +172,8 @@
 						<exclude>**/*domain/*.*</exclude>
 						<exclude>**/*repositories/*.*</exclude>
 						<exclude>**/App.*</exclude>
-						<exclude>**/*Config*.*</exclude>
+						<exclude>**/*config*/*.*</exclude>
+						<exclude>**/annotations/*.*</exclude>
 					</excludes>
 				</configuration>
                 <executions>

@@ -38,11 +38,10 @@ public class SecurityConfig {
 			auth.anyRequest().authenticated();
 		}).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).maximumSessions(1)
-				.expiredUrl("/login?session-expired=true").maxSessionsPreventsLogin(true))
+				.expiredUrl("/login?session-expired=true").maxSessionsPreventsLogin(false))
 				.formLogin(form -> form.defaultSuccessUrl("/", true))
-				.logout(logout -> logout.logoutUrl("/app-logout").logoutSuccessUrl("/login?logout") // Redirection après
-																									// déconnexion
-						.permitAll())
+				.logout(logout -> logout.logoutUrl("/app-logout").logoutSuccessUrl("/login?logout")
+						.invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll())
 				.exceptionHandling((exception) -> exception.accessDeniedPage("/app/error"));
 
 		return http.build();

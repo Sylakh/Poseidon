@@ -2,7 +2,6 @@ package com.nnk.springboot.services;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
-
-import jakarta.validation.Valid;
 
 @Service
 public class TradeService {
@@ -27,7 +24,7 @@ public class TradeService {
 		return tradeRepository.findAll();
 	}
 
-	public void add(@Valid Trade trade) {
+	public void add(Trade trade) {
 		trade.setTradeDate(new Timestamp(System.currentTimeMillis()));
 		trade.setRevisionName("a");
 		tradeRepository.save(trade);
@@ -35,52 +32,46 @@ public class TradeService {
 	}
 
 	public Trade findById(int id) {
-		Optional<Trade> optionalTrade = tradeRepository.findById(id);
-		if (optionalTrade.isPresent()) {
-			logger.info("find by id done");
-			return optionalTrade.get();
-		} else {
-			throw new IllegalArgumentException("Invalid trade Id:" + id);
-		}
+		return tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
+
 	}
 
-	public void update(@Valid Trade trade, Integer id) throws Exception {
-		Optional<Trade> optionalTrade = tradeRepository.findById(id);
-		if (optionalTrade.isPresent()) {
-			Trade foundTrade = optionalTrade.get();
+	public void update(Trade trade, Integer id) throws Exception {
+		tradeRepository.findById(id).map(foundTrade -> {
 			foundTrade.setTradeId(id);
 			foundTrade.setAccount(trade.getAccount());
 			foundTrade.setType(trade.getType());
 			foundTrade.setBuyQuantity(trade.getBuyQuantity());
 			foundTrade.setRevisionDate(new Timestamp(System.currentTimeMillis()));
-			foundTrade.setRevisionName(incrementLetter(foundTrade.getRevisionName()));
-			tradeRepository.save(foundTrade);
+			try {
+				foundTrade.setRevisionName(incrementLetter(foundTrade.getRevisionName()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Trade updatedTrade = tradeRepository.save(foundTrade);
 			logger.info("update done");
-		} else {
-			throw new Exception("Invalid trade Id:" + id);
-		}
+			return updatedTrade;
+		}).orElseThrow(() -> new Exception("Invalid trade Id:" + id));
+
 	}
 
 	// Méthode pour incrémenter une lettre
 	public static String incrementLetter(String letter) throws Exception {
 		if (letter.equals("Z")) {
 			throw new Exception("too many revision"); // Exception si "Z" est atteint
-		} else {
-			// Convertir la lettre en son code Unicode, incrémenter, puis convertir de
-			// nouveau en chaîne
-			int unicodeValue = letter.codePointAt(0) + 1;
-			return new String(new int[] { unicodeValue }, 0, 1);
 		}
+
+		int unicodeValue = letter.codePointAt(0) + 1;
+		return new String(new int[] { unicodeValue }, 0, 1);
 	}
 
 	public void delete(Integer id) {
-		Optional<Trade> optionalTrade = tradeRepository.findById(id);
-		if (optionalTrade.isPresent()) {
+		tradeRepository.findById(id).map(foundTrade -> {
 			tradeRepository.deleteById(id);
 			logger.info("delete done");
-		} else {
-			throw new IllegalArgumentException("Invalid trade Id:" + id);
-		}
+			return foundTrade;
+		}).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
+
 	}
 
 }

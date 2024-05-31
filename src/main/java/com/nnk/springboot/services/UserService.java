@@ -33,29 +33,22 @@ public class UserService {
 	}
 
 	public DBUser findById(int id) {
-		Optional<DBUser> optionalUser = userRepository.findById(id);
-		if (optionalUser.isPresent()) {
-			logger.info("find by id done");
-			return optionalUser.get();
-		} else {
-			throw new IllegalArgumentException("Invalid user Id:" + id);
-		}
+		return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
 	}
 
 	public void update(DBUser user, int id) throws Exception {
-		Optional<DBUser> optionalUser = userRepository.findById(id);
-		if (optionalUser.isPresent()) {
-			DBUser updateUser = optionalUser.get();
+		userRepository.findById(id).map(foundUser -> {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			updateUser.setUsername(user.getUsername());
-			updateUser.setPassword(encoder.encode(user.getPassword()));
-			updateUser.setRole(user.getRole());
-			updateUser.setId(id);
-			userRepository.save(updateUser);
+			foundUser.setUsername(user.getUsername());
+			foundUser.setPassword(encoder.encode(user.getPassword()));
+			foundUser.setRole(user.getRole());
+			foundUser.setId(id);
+			userRepository.save(foundUser);
 			logger.info("update done");
-		} else {
-			throw new Exception("Invalid user Id:" + id);
-		}
+			return foundUser;
+		}).orElseThrow(() -> new Exception("Invalid user Id:" + id));
+
 	}
 
 	public void delete(int id) {

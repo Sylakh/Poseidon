@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
@@ -18,15 +19,19 @@ public class Rating {
 	@Column(name = "Id")
 	Integer id;
 
+	@Min(1)
 	@Column(name = "moodys_rating")
 	String moodysRating;
 
+	@Min(1)
 	@Column(name = "sandp_rating")
 	String sandpRating;
 
+	@Min(1)
 	@Column(name = "fitch_rating")
 	String fitchRating;
 
+	@Min(1)
 	@Column(name = "order_number")
 	Integer orderNumber;
 
